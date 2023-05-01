@@ -1,13 +1,18 @@
 package com.example.objectdetectpy;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +42,27 @@ public class MainActivity extends AppCompatActivity {
     private void capture(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent, RC_PIC_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==RC_PIC_CODE){
+            if (resultCode==RESULT_OK){
+                //Getting bitmap data
+                Bitmap bp=(Bitmap) data.getExtras().get("data");
+                resultImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                //Code for conversion to grayscale.
+
+                //Starting python interpreter
+                if( !Python.isStarted()){
+                    Python.start(new AndroidPlatform(this));
+                }
+
+                //Getting python interpreter instance
+                final Python py = Python.getInstance();
+            }
+        }
     }
 }
 
