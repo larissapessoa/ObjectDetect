@@ -42,11 +42,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //function to capture images using the camera.
     private void capture(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent, RC_PIC_CODE);
     }
 
+    //Function to call the python function and run detection.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
