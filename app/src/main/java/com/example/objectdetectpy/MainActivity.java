@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
@@ -67,7 +70,24 @@ public class MainActivity extends AppCompatActivity {
 
                 //Getting python interpreter instance
                 final Python py = Python.getInstance();
+                //Converting bitmap data to base 64 string.
+                imgString=getStringImage(bp);
+                //Creating the object of python source file yolo_module.
+                PyObject pyo=py.getModule("yolo_module");
+                //Calling function detect_and_draw from module.
+                PyObject obj=pyo.callAttr("detect_and_draw", imgString);
+                //Converting to string.
+                String str=obj.toString();
+                //Decoding back the base64 string to byte data.
+                byte data2[]= Base64.decode(str, Base64.DEFAULT);
+                //Creating bitmap image from bitmap data.
+                Bitmap bmp= BitmapFactory.decodeByteArray(data2, 0,data2.length);
+                //Setting the bitmap image in the image view
+                resultImage.setImageBitmap(bmp);
+
             }
+        }else if(resultCode==RESULT_CANCELED){
+            Toast.makeText(this, "cancelled", Toast.LENGTH_SHORT).show();
         }
     }
 
