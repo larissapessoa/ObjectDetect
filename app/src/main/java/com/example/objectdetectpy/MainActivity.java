@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
+
+import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,6 +66,15 @@ public class MainActivity extends AppCompatActivity {
                 final Python py = Python.getInstance();
             }
         }
+    }
+
+    //function to convert the bitmap to base 64 string.
+    private String getStringImage(@org.jetbrains.annotations.NotNull Bitmap bitmap){
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+        byte [] imageBytes=baos.toByteArray();
+        String encodedImage=android.util.Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
     }
 }
 
