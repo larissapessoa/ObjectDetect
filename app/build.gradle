@@ -19,8 +19,8 @@ android {
         }
 
         python {
-            version "3.11"
-            buildPython "C:\\Users\\Larissa Pessoa\\AppData\\Local\\Programs\\Python\\Python311\\python.exe"
+            version "3.8"
+            buildPython "C:\\Users\\Larissa Pessoa\\AppData\\Local\\Programs\\Python\\Python38\\python.exe"
             pip{
                 install "opencv-contrib-python-headless"
                 install "Keras==2.3.1"
